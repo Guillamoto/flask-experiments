@@ -1,0 +1,23 @@
+
+<!-- As seen in "base.html", the templates for each blueprint will be inside a folder called by its same name. -->
+
+<!-- We are telling that Jinja should replace the blocks from the base template with these. -->
+{% extends 'base.html' %}
+
+{% block header %}
+    <!-- Putting the block title inside the block header allows us to make the window and page share the same title without writing it twice. -->
+    <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <!-- We create a form to fulfill with the login data. -->
+    <form method="post">
+        <!-- We generate labels and inputs for username and password. Notice the "required" argument in input, implicating that it must be fulfilled. -->
+        <label for="username">Username</label>
+        <input name="username" id="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+        <!-- Last but not less important, we have to put a submit button in order to deliver the data fulfilled. -->
+        <input type="submit" value="Register">
+    </form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<!-- Here we can see that the block title will be the previous title of the post.-->
+  <h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="title">Title</label>
+    <input name="title" id="title"
+      value="{{ request.form['title'] or post['title'] }}" required>
+    <label for="body">Body</label>
+    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <!-- There we use the "url_for" so we can delete the post if we need to. -->
+  <form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+      <!-- Confirmation window (JavaScript) in order to make sure you want to delete the post. -->
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endblock %}

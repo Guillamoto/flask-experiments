@@ -1,0 +1,44 @@
+
+
+<!--- Previously, we defined views calling for "render_template". However, as we have not written the template yet, we would obtain an erroy if we try to go to any of these URLs. --->
+
+<!-- Our templates are stored in the "templates" directory in the "flaskr" package. -->
+
+<!-- In flask, Jinja is configured to autoescape any data rendered in HTML templates, so it is safe to render user input. -->
+
+<!-- We denote blocks with start and end tags rather than indentation, asstatic text within a block could change indentation. -->
+
+<!doctype html>
+<!-- "block title" will define the title displayed in the browser's tab and window.-->
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<!-- There we define a link to the style we are going to use ("style.css"), which will be located in ../static/ -->
+<!-- We will NOT understand the CSS language, as it is not part of the project. But it reflects a different outcome indeed. -->
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Flaskr</h1>
+  <ul>
+    <!-- "g" is available automatically in templates. If the g.user is set (load_logged_in_user) we display the username and logout links, or the register and login links. -->
+    <!-- As "url_for" is available automatically too, we use it to generate the URLs. -->
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">Register</a>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+    {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    <!-- "block header" will define the title displayed on the page. -->
+    {% block header %}{% endblock %}
+  </header>
+  <!-- The template loops over each message returned byt "get_flashed_messages()". When we used "flash", it was to show the errors here. This is done before the content. -->
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  <!-- "block content" will show the content of each page. -->
+  {% block content %}{% endblock %}
+</section>
+
+<!-- The base template will be directly in the "templates" directory. To keep the other organized, the templates for a blueprint will be in a directory with its same name. -->
